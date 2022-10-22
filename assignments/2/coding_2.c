@@ -32,7 +32,61 @@ char *getLine(String *s) {
 
 
 int solution(char *S, char *F) {
-    /*Complete this function*/
+    int solution(char *S,char *F) {
+    // contains array will stores the 26
+    // the size is 26 means index 0-a,1-b and so on
+    int contains[26],i,res = 0;
+    // making the contains[i] = 0 means first all the characters are not present
+    for(i = 0;i<26;i++) {
+        contains[i] = 0;
+    }
+    // for each character present in the F then we will make the index of the character to 1
+    // for example if F is 1 then contains[0] = 1
+    i = 0;
+    while(F[i] != '\0') {
+        contains[F[i] - 97] = 1;
+        i++;
+    }
+    i = 0;
+    // for each character in the S
+    while(S[i] != '\0') {
+        int curr = S[i] - 97,count1 = 0,count2 = 0,j;
+        j = curr;
+        // counts the number of operation takes if we consider succeding one
+        do {
+            if(contains[j] == 1)
+                break;
+            count1++;
+            j++;
+            if(j > 25) {
+                j = 0;
+            }
+        }while(j != curr);
+        // counts the number of operation takes if we consider preceding one
+        j = curr;
+        do {
+            if(contains[j] == 1)
+                break;
+            count2++;
+            j--;
+            if(j < 0) {
+                j = 25;
+            }
+        }while(j != curr);
+        // adds the smallest count to the res
+        if(count1 < count2) {
+            res += count1;
+        }
+        else {
+            res += count2;
+        }
+        i++;
+    }
+    // returns res
+    return res;
+    
+    
+}
 }
 
 int main(int argc, char *argv[]) {
